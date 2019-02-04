@@ -84,26 +84,26 @@ public class Topsis {
 
         // Mobile node
         if (node.equalsIgnoreCase(Config.alternatives[0])){
-            siteCriteria.add(Fuzzy.VERY_HIGH);
-            siteCriteria.add(Fuzzy.GOOD);
-            siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.VERY_LOW);
+            siteCriteria.add(Config.MOBILE_BANDWIDTH);
+            siteCriteria.add(Config.MOBILE_SPEED);
+            siteCriteria.add(Config.MOBILE_AVAILABILITY);
+            siteCriteria.add(Config.MOBILE_SECURITY);
+            siteCriteria.add(Config.MOBILE_PRICE);
         }
         else if (node.equalsIgnoreCase(Config.alternatives[1])) { // Edge
-            siteCriteria.add(Fuzzy.VERY_HIGH);
-            siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.LOW);
+            siteCriteria.add(Config.EDGE_BANDWIDTH);
+            siteCriteria.add(Config.EDGE_SPEED);
+            siteCriteria.add(Config.EDGE_AVAILABILITY);
+            siteCriteria.add(Config.EDGE_SECURITY);
+            siteCriteria.add(Config.EDGE_PRICE);
         }
         // Public cloud instance
         else {
-            siteCriteria.add(Fuzzy.LOW);
-            siteCriteria.add(Fuzzy.VERY_HIGH);
-            siteCriteria.add(Fuzzy.VERY_HIGH);
-            siteCriteria.add(Fuzzy.GOOD);
-            siteCriteria.add(Fuzzy.VERY_HIGH);
+            siteCriteria.add(Config.PUBLIC_BANDWIDTH);
+            siteCriteria.add(Config.PUBLIC_SPEED);
+            siteCriteria.add(Config.PUBLIC_AVAILABILITY);
+            siteCriteria.add(Config.PUBLIC_SECURITY);
+            siteCriteria.add(Config.PUBLIC_PRICE);
         }
 
         return siteCriteria;
