@@ -2,12 +2,12 @@
 
 This tool is used as a comprehensive multi-criteria approach to find the best ranking among the alternative suppliers.
 
-Output : ![picture alt](./screenshots/ahp_topsis.png "AHP Fuzzy TOPSIS output")
-
 ## Usage
+1. Make sure you have [Apache Math library](http://commons.apache.org/proper/commons-math/download_math.cgi) in your classpath
+2. Edit the fields in [Config](./src/Config.java)
+3. Compile and Run [Test](./src/Test.java)
 
-1. Edit the fields in [Config](./src/Config.java)
-2. Compile and Run [Test](./src/Test.java)
+Output : ![picture alt](./screenshots/ahp_topsis.png "AHP Fuzzy TOPSIS output")
 
 ## Learn
 [AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
