@@ -5,22 +5,22 @@ import org.apache.commons.math3.linear.RealVector;
 public class AHP {
 
     // Random Consistency Index
-    private static double RI[] = {0.0, 0.0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49};
+    private static double[] RI = {0.0, 0.0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49};
 
     // The matrix
     private Array2DRowRealMatrix mtx;
 
     // Pairwise Comparison Array of criteria
-    private double pairwiseComparisonArray[];
+    private double[] pairwiseComparisonArray;
 
     // Number of alternatives
     private int nrAlternatives;
 
     // The resulting weights/priorities
-    private double weights[];
+    private double[] weights;
 
     // Corresponds to the weights
-    private String labels[] = null;
+    private String[] labels = null;
 
     private EigenDecomposition evd;
 
@@ -35,7 +35,7 @@ public class AHP {
      */
     private int evIdx = 0; // index of actual eigenvalue/-vector
 
-    AHP(String labels[]) {
+    AHP(String[] labels) {
         this(labels.length);
         this.labels = labels;
     }
@@ -79,7 +79,7 @@ public class AHP {
      * Set the pairwise comparison scores and calculate all relevant numbers
      * @param a
      */
-    void setPairwiseComparisonArray(double a[]) {
+    void setPairwiseComparisonArray(double[] a) {
         int i = 0;
         for (int row = 0; row < nrAlternatives; row++) {
             for (int col = row + 1; col < nrAlternatives; col++) {
@@ -126,6 +126,7 @@ public class AHP {
      * @return resulting weights for alternatives
      */
     double[] getWeights() {
+        final double[] weights = this.weights;
         return weights;
     }
 

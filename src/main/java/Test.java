@@ -1,14 +1,10 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 public class Test {
 
     private void calculateAHP(){
 
         AHP ahp = new AHP(Config.criteria);
 
-        double compArray[] = ahp.getPairwiseComparisonArray();
+        double[] compArray = ahp.getPairwiseComparisonArray();
 
         // Set the pairwise comparison values
         compArray[0] = Config.BANDWIDTH_SPEED;

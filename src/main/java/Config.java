@@ -3,10 +3,10 @@ import java.text.DecimalFormat;
 class Config {
 
     // Set your alternatives here
-    static String alternatives[] = new String[]{"Mobile", "Edge", "Public"};
+    static String[] alternatives = new String[]{"Mobile", "Edge", "Public"};
 
     // Set your criteria here
-    static String criteria[] = new String[]{"Bandwidth", "Speed", "Availability", "Security", "Price"};
+    static String[] criteria = new String[]{"Bandwidth", "Speed", "Availability", "Security", "Price"};
 
     // Set true for benefir criterion, false for cost criterion
     static boolean[] costCriteria = new boolean[]{false, false, false, false, true}; // price is cost

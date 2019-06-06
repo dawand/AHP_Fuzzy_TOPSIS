@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Topsis {
+class Topsis {
 
     private HashMap<String, ArrayList<Double>> sitesMatrix;
     private HashMap<String, ArrayList<Fuzzy>> availableSites;
     private ArrayList<Fuzzy> criteriaImportance;
 
-    public Topsis(){
+    Topsis(){
         criteriaImportance = new ArrayList<>();
-        sitesMatrix =new HashMap<>();
+        sitesMatrix = new HashMap<>();
         availableSites = new HashMap<>();
     }
 
-    public void start(){
+    void start(){
         for (String alternative : Config.alternatives) {
             criteriaImportance = profileNode(alternative);
             availableSites.put(alternative, criteriaImportance);
@@ -47,7 +47,7 @@ public class Topsis {
 
             System.out.println(entry);
 
-            ArrayList<Double> weightedMatrix = new ArrayList<>();
+            ArrayList<Double> weightedMatrix = new ArrayList<Double>();
 
             for (int k = 0; k < entry.getValue().size(); k++) {
                 for (double fuzzyValue:entry.getValue().get(k).getValue()) {
@@ -112,7 +112,7 @@ public class Topsis {
     private HashMap<String, Double> calculateDistance(HashMap<String, ArrayList<Double>> sitesMatrix, boolean ideal) {
         EuclideanDistance distance = new EuclideanDistance();
         // The normalized values for the ideal solution and negative ideal solution on criteria are always (1,1,1) and (0,0,0) respectively
-        Double dValue = 0.0;
+        double dValue = 0.0;
         HashMap<String, Double> results = new HashMap<>();
 
         for (Map.Entry<String,ArrayList<Double>> entry: sitesMatrix.entrySet()) {

@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="AHP_Fuzzy_TOPSIS" target="1.5" />
+      <module name="AHP_Fuzzy_TOPSIS" target="7" />
     </bytecodeTargetLevel>
   </component>
 </project>
