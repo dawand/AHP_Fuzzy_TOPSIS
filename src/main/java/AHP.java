@@ -126,7 +126,6 @@ public class AHP {
      * @return resulting weights for alternatives
      */
     double[] getWeights() {
-        final double[] weights = this.weights;
         return weights;
     }
 
