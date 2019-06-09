@@ -4,8 +4,8 @@ This tool is used as a comprehensive multi-criteria approach to find the best ra
 
 ## Usage
 1. Make sure you have [Apache Math library](http://commons.apache.org/proper/commons-math/download_math.cgi) in your classpath
-2. Edit the fields in [Config](./src/Config.java)
-3. Compile and Run [Test](./src/Test.java)
+2. Edit the fields in [Config](./src/main/java/Config.java)
+3. For a single decision maker: Compile and Run [Test](./src/main/java/Test.java). Multiple decision makers: [TestGroupDecisionMaking](./src/main/java/TestGroupDecisionMaking.java)
 
 Output : ![picture alt](./screenshots/ahp_topsis.png "AHP Fuzzy TOPSIS output")
 
