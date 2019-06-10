@@ -4,6 +4,9 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class AHP {
 
+    // Singleton instance
+    private static AHP instance;
+
     // Random Consistency Index
     private static double[] RI = {0.0, 0.0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49};
 
@@ -35,7 +38,16 @@ public class AHP {
      */
     private int evIdx = 0; // index of actual eigenvalue/-vector
 
-    AHP(String[] labels) {
+    static AHP getInstance(String[] labels) {
+        if(instance != null){
+            return instance;
+        } else {
+            instance = new AHP(labels);
+        }
+        return instance;
+    }
+
+    private AHP(String[] labels) {
         this(labels.length);
         this.labels = labels;
     }
