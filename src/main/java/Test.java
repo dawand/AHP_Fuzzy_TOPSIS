@@ -2,7 +2,7 @@ public class Test {
 
     private void calculateAHP(){
 
-        AHP ahp = new AHP(Config.criteria);
+        AHP ahp = AHP.getInstance(Config.criteria);
 
         double[] compArray = ahp.getPairwiseComparisonArray();
 
@@ -47,6 +47,7 @@ public class Test {
         System.out.println("Calculating AHP Criteria weighting: ");
         test.calculateAHP();
 
+        System.out.println("End of AHP");
         System.out.println("********************************");
         System.out.println("Calculating Fuzzy TOPSIS: ");
 
