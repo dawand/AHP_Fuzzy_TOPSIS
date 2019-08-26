@@ -19,6 +19,7 @@ public class Test {
         compArray[9] = Config.SECURITY_PRICE;
 
         ahp.setPairwiseComparisonArray(compArray);
+        ahp.setEvd();
 
         for (int i = 0; i < ahp.getNrOfPairwiseComparisons(); i++) {
             System.out.print("Importance of " + Config.criteria[ahp.getIndicesForPairwiseComparison(i)[0]] + " compared to ");
@@ -26,6 +27,10 @@ public class Test {
             System.out.println(String.valueOf(ahp.getPairwiseComparisonArray()[i]));
         }
 
+        System.out.println("A: " + ahp.toString());
+
+        System.out.println("Geometric Consistency Index: " + Config.df.format(ahp.getGeometricConsistencyIndex()));
+        System.out.println("Geometric Cardinal Consistency Index: " + Config.df.format(ahp.getGeometricCardinalConsistencyIndex()));
         System.out.println("Consistency Index: " + Config.df.format(ahp.getConsistencyIndex()));
         System.out.println("Consistency Ratio: " + Config.df.format(ahp.getConsistencyRatio()) + "%");
         System.out.println("Weights: ");
@@ -33,6 +38,7 @@ public class Test {
             Config.ahpWeights[k] = ahp.getWeights()[k];
             System.out.println(Config.criteria[k] + ": " + Config.df.format(ahp.getWeights()[k]));
         }
+
     }
 
     private void topsisMethod(){
