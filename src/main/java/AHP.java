@@ -66,7 +66,7 @@ public class AHP {
         // only need diagonal 1, but set everything to 1.0
         for (int row = 0; row < nrAlternatives; row++) {
             for (int col = 0; col < nrAlternatives; col++) {
-                mtx.setEntry(row, col, 1.0);
+                getMtx().setEntry(row, col, 1.0);
             }
         }
     }
@@ -96,14 +96,20 @@ public class AHP {
         for (int row = 0; row < nrAlternatives; row++) {
             for (int col = row + 1; col < nrAlternatives; col++) {
                 //System.out.println(row + "/" + col + "=" + a[i]);
-                mtx.setEntry(row, col, a[i]);
-                mtx.setEntry(col, row, 1.0 / mtx.getEntry(row, col));
+                getMtx().setEntry(row, col, a[i]);
+                getMtx().setEntry(col, row, 1.0 / getMtx().getEntry(row, col));
                 comparisonIndices[i][0] = row;
                 comparisonIndices[i][1] = col;
                 i++;
             }
         }
-        evd = new EigenDecomposition(mtx);
+    }
+
+    /**
+     * Sets the EigenDecomposition
+     */
+    void setEvd(){
+        evd = new EigenDecomposition(getMtx());
 
         evIdx = 0;
         for (int k = 0; k < evd.getRealEigenvalues().length; k++) {
@@ -157,10 +163,74 @@ public class AHP {
         return getConsistencyIndex() / RI[nrAlternatives] * 100.0;
     }
 
+    /**
+     * Calculates the GCI(A) According to
+     * "The geometric consistency index: Approximated thresholds" by Aguaron et al.
+     * @return GCI(A)
+     */
+    double getGeometricConsistencyIndex(){
+
+        Array2DRowRealMatrix e_ij = new Array2DRowRealMatrix(nrAlternatives, nrAlternatives);
+
+        for (int row = 0; row < nrAlternatives; row++){
+            for (int col = row + 1; col < nrAlternatives; col++) {
+                //System.out.println(row + "/" + col + "=" + a[i]);
+                double e = getMtx().getEntry(row,col) * (weights[col] / weights[row]);
+                e_ij.setEntry(row, col, e);
+            }
+        }
+
+        double gci = 0;
+
+        for (int row = 0; row < nrAlternatives; row++) {
+            for (int col = row + 1; col < nrAlternatives; col++) {
+                gci += Math.log(e_ij.getEntry(row,col)) * Math.log(e_ij.getEntry(row,col));
+            }
+        }
+
+        return gci * (2.0 / ((nrAlternatives - 1) * (nrAlternatives - 2)));
+    }
+
+    /**
+     *
+     * Calculates the GCCI(A) According to
+     * "Consensus models for AHP group decision making under row geometric mean prioritization method" by Dong et al
+     * @return GCCI(A)
+     */
+    double getGeometricCardinalConsistencyIndex(){
+
+        double gcci = 0;
+
+        for (int row = 0; row < nrAlternatives; row++){
+            for (int col = row + 1; col < nrAlternatives; col++) {
+                gcci += Math.pow((Math.log(getMtx().getEntry(row,col)) - Math.log(weights[row]) + Math.log(weights[col])),2);
+            }
+        }
+
+        return gcci * (2.0 / ((nrAlternatives - 1) * (nrAlternatives - 2)));
+    }
+
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<nrAlternatives; i++)
-            sb.append(mtx.getRowVector(i)).append("\n");
+            sb.append(getMtx().getRowVector(i)).append("\n");
         return sb.toString();
+    }
+
+    /**
+     * Created for the GDM to assign A_i to mtx
+     * @return mtx
+     */
+    public Array2DRowRealMatrix getMtx() {
+        return mtx;
+    }
+
+    /**
+     * Created for setting Ac to mtx
+     * @param mtx
+     */
+    public void setMtx(Array2DRowRealMatrix mtx) {
+        this.mtx = mtx;
     }
 }
