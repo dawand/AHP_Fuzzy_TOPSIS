@@ -1,3 +1,5 @@
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
 import java.util.Arrays;
 
 public class TestGroupDecisionMaking {
@@ -39,26 +41,36 @@ public class TestGroupDecisionMaking {
         // Start calculating pairwise comparison matrix for each DM
         dm1.setCriteriaImportance(criteriaImportance1);
         double[] w1 = test.calculateAHP(ahp, dm1.comArrayValues);
+        Array2DRowRealMatrix A1 = (Array2DRowRealMatrix) ahp.getMtx().copy();
+
         System.out.println("A1: " + ahp.toString());
         System.out.println("W1: " + Arrays.toString(w1) + "\n");
 
         dm2.setCriteriaImportance(criteriaImportance2);
         double[] w2 = test.calculateAHP(ahp, dm2.comArrayValues);
+        Array2DRowRealMatrix A2 = (Array2DRowRealMatrix) ahp.getMtx().copy();
+
         System.out.println("A2: " + ahp.toString());
         System.out.println("W2: " + Arrays.toString(w2) + "\n");
 
         dm3.setCriteriaImportance(criteriaImportance3);
         double[] w3 = test.calculateAHP(ahp, dm3.comArrayValues);
+        Array2DRowRealMatrix A3 = (Array2DRowRealMatrix) ahp.getMtx().copy();
+
         System.out.println("A3: " + ahp.toString());
         System.out.println("W3: " + Arrays.toString(w3) + "\n");
 
         dm4.setCriteriaImportance(criteriaImportance4);
         double[] w4 = test.calculateAHP(ahp, dm4.comArrayValues);
+        Array2DRowRealMatrix A4 = (Array2DRowRealMatrix) ahp.getMtx().copy();
+
         System.out.println("A4: " + ahp.toString());
         System.out.println("W4: " + Arrays.toString(w4) + "\n");
 
         dm5.setCriteriaImportance(criteriaImportance5);
         double[] w5 = test.calculateAHP(ahp, dm5.comArrayValues);
+        Array2DRowRealMatrix A5 = (Array2DRowRealMatrix) ahp.getMtx().copy();
+
         System.out.println("A5: " + ahp.toString());
         System.out.println("W5: " + Arrays.toString(w5) + "\n");
 
@@ -68,8 +80,11 @@ public class TestGroupDecisionMaking {
 
         double sum = 0;
         for (int i=0; i<w1.length; i++) {
-            Double wk = Math.pow(w1[i], dmWeights[0]) * Math.pow(w2[i], dmWeights[1]) * Math.pow(w3[i], dmWeights[2])
-                    * Math.pow(w4[i], dmWeights[3]) * Math.pow(w5[i], dmWeights[4]);
+            Double wk = Math.pow(w1[i], dmWeights[0])
+                    * Math.pow(w2[i], dmWeights[1])
+                    * Math.pow(w3[i], dmWeights[2])
+                    * Math.pow(w4[i], dmWeights[3])
+                    * Math.pow(w5[i], dmWeights[4]);
             collectivePriorityWeightVector[i] = wk;
             sum += wk;
         }
@@ -77,6 +92,34 @@ public class TestGroupDecisionMaking {
         System.out.println("Wc: " + Arrays.toString(collectivePriorityWeightVector) + "\n");
 
         Config.ahpWeights = collectivePriorityWeightVector;
+
+        Array2DRowRealMatrix AC = new Array2DRowRealMatrix(dmWeights.length, dmWeights.length);
+
+        for (int row = 0; row < dmWeights.length; row++) {
+            for (int col = 0; col < dmWeights.length; col++) {
+                Double aij = Math.pow(A1.getEntry(row,col), dmWeights[0])
+                        * Math.pow(A2.getEntry(row,col), dmWeights[1])
+                        * Math.pow(A3.getEntry(row,col), dmWeights[2])
+                        * Math.pow(A4.getEntry(row,col), dmWeights[3])
+                        * Math.pow(A5.getEntry(row,col), dmWeights[4]);
+//                System.out.println(A1.getEntry(row,col) + " " + A2.getEntry(row,col) + " " + A3.getEntry(row,col));
+                AC.setEntry(row,col,aij);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<dmWeights.length; i++)
+            sb.append(AC.getRowVector(i)).append("\n");
+
+        System.out.println("Ac: " + sb.toString());
+
+        ahp.setMtx(AC);
+        ahp.setEvd(); // For recalculating the Eigen values for Ac
+
+        System.out.println("Geometric Consistency Index for Ac: " + Config.df.format(ahp.getGeometricConsistencyIndex()));
+        System.out.println("Geometric Cardinal Consistency Index for Ac: " + Config.df.format(ahp.getGeometricCardinalConsistencyIndex()));
+        System.out.println("Consistency Index for Ac: " + Config.df.format(ahp.getConsistencyIndex()));
+        System.out.println("Consistency Ratio for Ac: " + Config.df.format(ahp.getConsistencyRatio()) + "%");
 
         System.out.println("End of AHP");
         System.out.println("********************************");
@@ -88,6 +131,7 @@ public class TestGroupDecisionMaking {
     private double[] calculateAHP(AHP ahp, double[] compArray){
 
         ahp.setPairwiseComparisonArray(compArray);
+        ahp.setEvd();
 
         double[] ahpWeights = new double[Config.criteria.length];
 
@@ -97,6 +141,8 @@ public class TestGroupDecisionMaking {
             System.out.println(String.valueOf(ahp.getPairwiseComparisonArray()[i]));
         }
 
+        System.out.println("Geometric Consistency Index: " + Config.df.format(ahp.getGeometricConsistencyIndex()));
+        System.out.println("Geometric Cardinal Consistency Index: " + Config.df.format(ahp.getGeometricCardinalConsistencyIndex()));
         System.out.println("Consistency Index: " + Config.df.format(ahp.getConsistencyIndex()));
         System.out.println("Consistency Ratio: " + Config.df.format(ahp.getConsistencyRatio()) + "%");
         System.out.println("Weights: ");
