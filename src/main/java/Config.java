@@ -3,12 +3,13 @@ import java.text.DecimalFormat;
 class Config {
 
     // Set your alternatives here
-    static String[] alternatives = new String[]{"Mobile", "Edge", "Public"};
+//    static String[] alternatives = new String[]{"Mobile", "Edge", "Public"};
+    static String[] alternatives = new String[]{"Mobile-1", "Mobile-2", "Mobile-3", "Edge-1", "Edge-2", "Edge-3", "Public-1", "Public-2", "Public-3"};
 
     // Set your criteria here
     static String[] criteria = new String[]{"Bandwidth", "Speed", "Availability", "Security", "Price"};
 
-    // Set true for benefir criterion, false for cost criterion
+    // Set true for benefit criterion, false for cost criterion
     static boolean[] costCriteria = new boolean[]{false, false, false, false, true}; // price is cost
 
     static Double[] ahpWeights = new Double[Config.criteria.length];
@@ -50,6 +51,6 @@ class Config {
     static double[] antiIdealSolution = {0,0,0};
 
     // Number of decimal points for float number formatting
-    static DecimalFormat df = new DecimalFormat("0.0000");
+    static DecimalFormat df = new DecimalFormat("0.000");
 
 }

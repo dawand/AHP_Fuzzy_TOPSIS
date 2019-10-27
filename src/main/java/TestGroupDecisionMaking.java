@@ -40,45 +40,44 @@ public class TestGroupDecisionMaking {
 
         // Start calculating pairwise comparison matrix for each DM
         dm1.setCriteriaImportance(criteriaImportance1);
-        double[] w1 = test.calculateAHP(ahp, dm1.comArrayValues);
+        double[] w1 = test.calculateAHP(ahp, dm1.getComArrayValues());
         Array2DRowRealMatrix A1 = (Array2DRowRealMatrix) ahp.getMtx().copy();
 
         System.out.println("A1: " + ahp.toString());
         System.out.println("W1: " + Arrays.toString(w1) + "\n");
 
         dm2.setCriteriaImportance(criteriaImportance2);
-        double[] w2 = test.calculateAHP(ahp, dm2.comArrayValues);
+        double[] w2 = test.calculateAHP(ahp, dm2.getComArrayValues());
         Array2DRowRealMatrix A2 = (Array2DRowRealMatrix) ahp.getMtx().copy();
 
         System.out.println("A2: " + ahp.toString());
         System.out.println("W2: " + Arrays.toString(w2) + "\n");
 
         dm3.setCriteriaImportance(criteriaImportance3);
-        double[] w3 = test.calculateAHP(ahp, dm3.comArrayValues);
+        double[] w3 = test.calculateAHP(ahp, dm3.getComArrayValues());
         Array2DRowRealMatrix A3 = (Array2DRowRealMatrix) ahp.getMtx().copy();
 
         System.out.println("A3: " + ahp.toString());
         System.out.println("W3: " + Arrays.toString(w3) + "\n");
 
         dm4.setCriteriaImportance(criteriaImportance4);
-        double[] w4 = test.calculateAHP(ahp, dm4.comArrayValues);
+        double[] w4 = test.calculateAHP(ahp, dm4.getComArrayValues());
         Array2DRowRealMatrix A4 = (Array2DRowRealMatrix) ahp.getMtx().copy();
 
         System.out.println("A4: " + ahp.toString());
         System.out.println("W4: " + Arrays.toString(w4) + "\n");
 
         dm5.setCriteriaImportance(criteriaImportance5);
-        double[] w5 = test.calculateAHP(ahp, dm5.comArrayValues);
+        double[] w5 = test.calculateAHP(ahp, dm5.getComArrayValues());
         Array2DRowRealMatrix A5 = (Array2DRowRealMatrix) ahp.getMtx().copy();
 
         System.out.println("A5: " + ahp.toString());
         System.out.println("W5: " + Arrays.toString(w5) + "\n");
 
         // This can be set according to the application requirements
-        Double[] dmWeights = {2.5/5.0, 2.0/5.0, 0.2/5.0, 0.2/5.0, 0.1/5.0};
+        Double[] dmWeights = {1.0/5.0, 1.0/5.0, 1.0/5.0, 1.0/5.0, 1.0/5.0};
         Double[] collectivePriorityWeightVector = new Double[w1.length];
 
-        double sum = 0;
         for (int i=0; i<w1.length; i++) {
             Double wk = Math.pow(w1[i], dmWeights[0])
                     * Math.pow(w2[i], dmWeights[1])
@@ -86,7 +85,6 @@ public class TestGroupDecisionMaking {
                     * Math.pow(w4[i], dmWeights[3])
                     * Math.pow(w5[i], dmWeights[4]);
             collectivePriorityWeightVector[i] = wk;
-            sum += wk;
         }
 
         System.out.println("Wc: " + Arrays.toString(collectivePriorityWeightVector) + "\n");
@@ -97,12 +95,11 @@ public class TestGroupDecisionMaking {
 
         for (int row = 0; row < dmWeights.length; row++) {
             for (int col = 0; col < dmWeights.length; col++) {
-                Double aij = Math.pow(A1.getEntry(row,col), dmWeights[0])
+                double aij = Math.pow(A1.getEntry(row,col), dmWeights[0])
                         * Math.pow(A2.getEntry(row,col), dmWeights[1])
                         * Math.pow(A3.getEntry(row,col), dmWeights[2])
                         * Math.pow(A4.getEntry(row,col), dmWeights[3])
                         * Math.pow(A5.getEntry(row,col), dmWeights[4]);
-//                System.out.println(A1.getEntry(row,col) + " " + A2.getEntry(row,col) + " " + A3.getEntry(row,col));
                 AC.setEntry(row,col,aij);
             }
         }
@@ -146,6 +143,7 @@ public class TestGroupDecisionMaking {
         System.out.println("Consistency Index: " + Config.df.format(ahp.getConsistencyIndex()));
         System.out.println("Consistency Ratio: " + Config.df.format(ahp.getConsistencyRatio()) + "%");
         System.out.println("Weights: ");
+
         for (int k=0; k<ahp.getWeights().length; k++) {
             ahpWeights[k] = ahp.getWeights()[k];
             System.out.println(Config.criteria[k] + ": " + Config.df.format(ahp.getWeights()[k]));
