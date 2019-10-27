@@ -18,8 +18,8 @@ class Topsis {
         availableSites = p.start();
 
         sitesMatrix = transformToFuzzyValues(availableSites);
-        TreeMap<String, ArrayList<Double>> normalisedSitesMatrix = calculateNormalisedFuzzyMatrix(sitesMatrix);
-        TreeMap<String, ArrayList<Double>> normalisedWeightedFuzzyMatrix = calculateWeightedFuzzyMatrix(normalisedSitesMatrix);
+//        TreeMap<String, ArrayList<Double>> normalisedSitesMatrix = calculateNormalisedFuzzyMatrix(sitesMatrix);
+        TreeMap<String, ArrayList<Double>> normalisedWeightedFuzzyMatrix = calculateWeightedFuzzyMatrix(sitesMatrix);
 
         TreeMap<String, Double> idealDistances = calculateDistance(normalisedWeightedFuzzyMatrix, true);
         TreeMap<String, Double> antiIdealDistances = calculateDistance(normalisedWeightedFuzzyMatrix, false);
@@ -197,32 +197,32 @@ class Topsis {
     private TreeMap<String, Double> calculateDistance(TreeMap<String, ArrayList<Double>> sitesMatrix, boolean ideal) {
         EuclideanDistance distance = new EuclideanDistance();
         // The normalized values for the ideal solution and negative ideal solution on criteria are always (1,1,1) and (0,0,0) respectively
-        double dValue = 0.0;
         TreeMap<String, Double> results = new TreeMap<>();
 
         for (Map.Entry<String,ArrayList<Double>> entry: sitesMatrix.entrySet()) {
+            double dValue = 0.0;
             for (int i = 0; i < entry.getValue().size(); i = i + 3) {
                 double[] fuzzyValues = {entry.getValue().get(i), entry.getValue().get(i+1), entry.getValue().get(i+2)};
                 if (ideal) { // For D+
                     if (Config.costCriteria[i/3]) { // cost value for price criterion
-                        dValue += distance.compute(Config.antiIdealSolution, fuzzyValues) * (1.0/3.0);
+                        dValue += distance.compute(fuzzyValues, Config.antiIdealSolution) * (1.0/3.0);
 //                        dValue += Math.sqrt((Math.pow(entry.getValue().get(i) - Config.antiIdealSolution[0], 2) +
 //                                Math.pow(entry.getValue().get(i+1) - Config.antiIdealSolution[1], 2) +
 //                                Math.pow(entry.getValue().get(i+2) - Config.antiIdealSolution[2], 2)) * (1.0/3.0));
                     } else {
-                        dValue += distance.compute(Config.idealSolution, fuzzyValues) * (1.0/3.0);
+                        dValue += distance.compute(fuzzyValues, Config.idealSolution) * (1.0/3.0);
 //                        dValue += Math.sqrt((Math.pow(entry.getValue().get(i) - Config.idealSolution[0], 2) +
 //                                Math.pow(entry.getValue().get(i+1) - Config.idealSolution[1], 2) +
 //                                Math.pow(entry.getValue().get(i+2) - Config.idealSolution[2], 2)) * (1.0/3.0));
                     }
                 } else { // For D-
                     if (Config.costCriteria[i/3]) { // cost value for price criterion
-                        dValue += distance.compute(Config.idealSolution, fuzzyValues) * (1.0/3.0);
+                        dValue += distance.compute(fuzzyValues, Config.idealSolution) * (1.0/3.0);
 //                        dValue += Math.sqrt((Math.pow(entry.getValue().get(i) - Config.idealSolution[0], 2) +
 //                                Math.pow(entry.getValue().get(i+1) - Config.idealSolution[1], 2) +
 //                                Math.pow(entry.getValue().get(i+2) - Config.idealSolution[2], 2)) * (1.0/3.0));
                     } else {
-                        dValue += distance.compute(Config.antiIdealSolution, fuzzyValues) * (1.0/3.0);
+                        dValue += distance.compute(fuzzyValues, Config.antiIdealSolution) * (1.0/3.0);
 //                        dValue += Math.sqrt((Math.pow(entry.getValue().get(i) - Config.antiIdealSolution[0], 2) +
 //                                Math.pow(entry.getValue().get(i+1) - Config.antiIdealSolution[1], 2) +
 //                                Math.pow(entry.getValue().get(i+2) - Config.antiIdealSolution[2], 2)) * (1.0/3.0));

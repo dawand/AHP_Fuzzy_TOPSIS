@@ -50,7 +50,7 @@ class Profiler {
             siteCriteria.add(Fuzzy.VERY_LOW);
         }
 
-        //Mobile-2
+//        //Mobile-2
         else if (node.equalsIgnoreCase(Config.alternatives[1])) {
             siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.LOW);
@@ -83,7 +83,7 @@ class Profiler {
             siteCriteria.add(Fuzzy.HIGH);
             siteCriteria.add(Fuzzy.HIGH);
             siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.LOW);
+            siteCriteria.add(Fuzzy.GOOD);
         }
 
         //Edge-3
@@ -92,7 +92,7 @@ class Profiler {
             siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.HIGH);
             siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.LOW);
+            siteCriteria.add(Fuzzy.HIGH);
         }
 
         //Public-1
