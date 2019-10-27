@@ -47,10 +47,10 @@ class Config {
     static final Fuzzy PUBLIC_PRICE = Fuzzy.VERY_HIGH;
 
     // These values can also be computed from max and min of weighted decision matrix
-    static double[] idealSolution = {1,1,1};
-    static double[] antiIdealSolution = {0,0,0};
+    static double[] idealSolution = {0.75, 1.0, 1.0};
+    static double[] antiIdealSolution = {0.0, 0.0, 0.25};
 
     // Number of decimal points for float number formatting
-    static DecimalFormat df = new DecimalFormat("0.000");
+    static DecimalFormat df = new DecimalFormat("0.0000");
 
 }

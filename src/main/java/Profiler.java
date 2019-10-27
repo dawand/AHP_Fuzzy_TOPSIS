@@ -50,7 +50,7 @@ class Profiler {
             siteCriteria.add(Fuzzy.VERY_LOW);
         }
 
-//        //Mobile-2
+        //Mobile-2
         else if (node.equalsIgnoreCase(Config.alternatives[1])) {
             siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.LOW);
@@ -63,7 +63,7 @@ class Profiler {
         else if (node.equalsIgnoreCase(Config.alternatives[2])) {
             siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.GOOD);
+            siteCriteria.add(Fuzzy.LOW);
             siteCriteria.add(Fuzzy.HIGH);
             siteCriteria.add(Fuzzy.VERY_LOW);
         }
@@ -98,10 +98,10 @@ class Profiler {
         //Public-1
         else if (node.equalsIgnoreCase(Config.alternatives[6])) {
             siteCriteria.add(Fuzzy.HIGH);
-            siteCriteria.add(Fuzzy.GOOD);
-            siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.LOW);
             siteCriteria.add(Fuzzy.VERY_HIGH);
+            siteCriteria.add(Fuzzy.LOW);
+            siteCriteria.add(Fuzzy.GOOD);
         }
 
         //Public-2
@@ -110,7 +110,7 @@ class Profiler {
             siteCriteria.add(Fuzzy.HIGH);
             siteCriteria.add(Fuzzy.VERY_HIGH);
             siteCriteria.add(Fuzzy.LOW);
-            siteCriteria.add(Fuzzy.VERY_HIGH);
+            siteCriteria.add(Fuzzy.HIGH);
         }
 
         //Public-3

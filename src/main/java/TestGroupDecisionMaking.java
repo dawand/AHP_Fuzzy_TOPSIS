@@ -24,19 +24,19 @@ public class TestGroupDecisionMaking {
 
         // Reduce energy consumption to extend battery lifetime (e.g. when battery level is < 20)
         DecisionMaker dm2 = new DecisionMaker(ahp);
-        double[] criteriaImportance2 = {3.0, 7.0, 9.0, 9.0, 3.0, 7.0, 9.0, 5.0, 7.0, 2.0};
+        double[] criteriaImportance2 = {5.0, 7.0, 9.0, 9.0, 3.0, 7.0, 7.0, 5.0, 5.0, 1.0};
 
         // Reduce response time no matter the impact on energy consumption (e.g. when battery level > 80 or device is currently charging)
         DecisionMaker dm3 = new DecisionMaker(ahp);
-        double[] criteriaImportance3 = {1.0/3.0, 5.0, 7.0, 9.0, 5.0, 9.0, 9.0, 5.0, 7.0, 2.0};
+        double[] criteriaImportance3 = {1.0/7.0, 1.0/5.0, 7.0, 7.0, 3.0, 9.0, 9.0, 9.0, 9.0, 1.0};
 
         // Increase security level (Only offload if the offloading server is trusted and authenticated)
         DecisionMaker dm4 = new DecisionMaker(ahp);
-        double[] criteriaImportance4 = {1.0, 5.0, 1.0/5.0, 9.0, 5.0, 1.0/5.0, 8.0, 1.0/7.0, 3.0, 9.0};
+        double[] criteriaImportance4 = {1.0, 1.0, 1.0/9.0, 3.0, 3.0, 1.0/9.0, 3.0, 1.0/9.0, 3.0, 9.0};
 
         // Reduce the financial cost
         DecisionMaker dm5 = new DecisionMaker(ahp);
-        double[] criteriaImportance5 = {1.0, 5.0, 7.0, 1.0/5.0, 5.0, 6.0, 1.0/5.0, 3.0, 1.0/7.0, 1.0/9.0};
+        double[] criteriaImportance5 = {1.0, 3.0, 3.0, 1.0/9.0, 3.0, 3.0, 1.0/9.0, 3.0, 1.0/9.0, 1.0/9.0};
 
         // Start calculating pairwise comparison matrix for each DM
         dm1.setCriteriaImportance(criteriaImportance1);
@@ -78,13 +78,21 @@ public class TestGroupDecisionMaking {
         Double[] dmWeights = {1.0/5.0, 1.0/5.0, 1.0/5.0, 1.0/5.0, 1.0/5.0};
         Double[] collectivePriorityWeightVector = new Double[w1.length];
 
+//        for (int i=0; i<w1.length; i++) {
+//            Double wk = Math.pow(w1[i], dmWeights[0])
+//                    * Math.pow(w2[i], dmWeights[1])
+//                    * Math.pow(w3[i], dmWeights[2])
+//                    * Math.pow(w4[i], dmWeights[3])
+//                    * Math.pow(w5[i], dmWeights[4]);
+//            collectivePriorityWeightVector[i] = wk;
+//        }
+
+//        double sum = dmWeights[0] + dmWeights[1] + dmWeights[2] + dmWeights[3] + dmWeights[4];
+
         for (int i=0; i<w1.length; i++) {
-            Double wk = Math.pow(w1[i], dmWeights[0])
-                    * Math.pow(w2[i], dmWeights[1])
-                    * Math.pow(w3[i], dmWeights[2])
-                    * Math.pow(w4[i], dmWeights[3])
-                    * Math.pow(w5[i], dmWeights[4]);
-            collectivePriorityWeightVector[i] = wk;
+            double wk = w1[i] * w2[i] * w3[i] * w4[i] * w5[i];
+            System.out.println("wk" + i  + " is: " + wk);
+            collectivePriorityWeightVector[i] = Math.pow(wk, dmWeights[i]);
         }
 
         System.out.println("Wc: " + Arrays.toString(collectivePriorityWeightVector) + "\n");
